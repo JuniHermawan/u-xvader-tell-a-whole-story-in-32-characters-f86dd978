@@ -30,6 +30,10 @@ def main() -> None:
     # No trailing newline: the file is exactly the line, one line, 20 chars.
     with open(path, "w", encoding="utf-8", newline="") as f:
         f.write(LINE)
+    # Read-back verify: the file on disk must be exactly the line, so a
+    # silent short write can never ship a wrong entry.
+    with open(path, "r", encoding="utf-8", newline="") as f:
+        assert f.read() == LINE, "read-back mismatch in entry.txt"
 
 
 if __name__ == "__main__":
